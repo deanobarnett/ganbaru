@@ -1,8 +1,29 @@
 # Ganbaru
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ganbaru`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ganbaru, Japanese word meaning to _slog on tenaciously through tough times_.
 
-TODO: Delete this and the text above, and describe your gem
+This gem is used as a method for dealing with large and unwieldy test suites. The main stategy is to use a queue and workers to fan out and parallelize your test suite, with a fairly even distribution.
+
+This gem makes some assumptions on your stack at the moment:
+
+- You are using RSpec for testing.
+- You have access to AWS SQS.
+
+## How it works
+### Leader
+
+- Create 3 queues, `tests`, `results`, `kill`.
+- Gather all spec files and batch load them into `tests`.
+- Poll and report on `results` until all specs have returned a result.
+- Send `kill` signal to all workers.
+- Delete all queues.
+
+### Worker
+
+- Start Rails/Test environment.
+- Check for `kill` message.
+- Take items from the `tests` queue and run them.
+- Send result message to the `results` queue.
 
 ## Installation
 
@@ -22,13 +43,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To start the leader server run `Ganbaru.start_leader`. (Pass in RSpec config? Directory to run?)
+To run `n` number of workers use `Ganbaru.start_workers(n)`.
+
+### ENV Vars
+
+`AWS_KEY_ID=`
+`AWS_ACCESS_KEY=`
+`AWS_REGION=`
+`MAX_THREADS=`
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Todo
+
+- Make CLI?
+- Add statsd metrics for tests?
 
 ## Contributing
 
