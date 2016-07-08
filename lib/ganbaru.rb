@@ -1,4 +1,4 @@
-require "ganbaru/version"
+require 'ganbaru/version'
 
 module Ganbaru
 end
