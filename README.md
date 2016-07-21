@@ -1,6 +1,6 @@
 # Ganbaru
 
-![Rocky](https://media.giphy.com/media/yoJC2JaiEMoxIhQhY4/giphy.gif)
+![Believe it!](http://img13.deviantart.net/5913/i/2012/008/a/8/naruto_ganbaru_by_gin_uzumaki-d4lsgc7.jpg)
 
 Ganbaru, Japanese word meaning to _slog on tenaciously through tough times_.
 
