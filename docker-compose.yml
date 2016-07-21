@@ -1,0 +1,12 @@
+service: &default
+  build: .
+  links:
+    - redis
+  environment:
+    - REDIS_URL
+  volumes:
+    - .:/app
+
+redis:
+  image: redis:3.2.1
+

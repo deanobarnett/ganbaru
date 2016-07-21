@@ -1,5 +1,7 @@
 # Ganbaru
 
+![Rocky](https://media.giphy.com/media/yoJC2JaiEMoxIhQhY4/giphy.gif)
+
 Ganbaru, Japanese word meaning to _slog on tenaciously through tough times_.
 
 This gem is used as a method for dealing with large and unwieldy test suites. The main stategy is to use a queue and workers to fan out and parallelize your test suite, with a fairly even distribution.
@@ -7,23 +9,19 @@ This gem is used as a method for dealing with large and unwieldy test suites. Th
 This gem makes some assumptions on your stack at the moment:
 
 - You are using RSpec for testing.
-- You have access to AWS SQS.
+- You have access to Redis.
 
 ## How it works
+
 ### Leader
 
-- Create 3 queues, `tests`, `results`, `kill`.
-- Gather all spec files and batch load them into `tests`.
-- Poll and report on `results` until all specs have returned a result.
-- Send `kill` signal to all workers.
-- Delete all queues.
+- Create list in Redis
+- Gather all spec files and load them into Redis.
 
 ### Worker
 
 - Start Rails/Test environment.
-- Check for `kill` message.
-- Take items from the `tests` queue and run them.
-- Send result message to the `results` queue.
+- Take items from the Redis queue and run them.
 
 ## Installation
 
@@ -43,23 +41,27 @@ Or install it yourself as:
 
 ## Usage
 
-To start the leader server run `Ganbaru.start_leader`. (Pass in RSpec config? Directory to run?)
-To run `n` number of workers use `Ganbaru.start_workers(n)`.
+id generated if not supplied (print this out for reference)
+workers default to 1
+
+To start the leader server run `GANBARU_ROLE=leader ganbaru`. (Pass in RSpec config? Directory to run?)
+
+To start the worker server run `GANBARU_ROLE=worker ganbaru`.
 
 ### ENV Vars
 
-`AWS_KEY_ID=`
-`AWS_ACCESS_KEY=`
-`AWS_REGION=`
-`MAX_THREADS=`
+`REDIS_URL=`
+`BUILD_ID=` ?
 
 ## Development
 
+Run tests using `rake`
 
 ## Todo
 
 - Make CLI?
 - Add statsd metrics for tests?
+- Use run tests on a Thread.
 
 ## Contributing
 
