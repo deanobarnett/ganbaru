@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'redis_client'
-require 'rspec'
+require 'runners/rspec'
 
 module Ganbaru
   class Worker
@@ -10,12 +10,11 @@ module Ganbaru
       @specs_run = []
     end
 
-    def run
+    def run(runner = Runners::Rspec)
       loop do
         spec = @redis.lpop(@ref_id)
         break if spec.nil? || spec.empty?
-        RSpec::Core::Runner.run([spec])
-        RSpec.clear_examples
+        runner.run([spec])
         @specs_run << spec
       end
 

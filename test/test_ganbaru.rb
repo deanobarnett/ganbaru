@@ -1,30 +1,8 @@
 # frozen_string_literal: true
-require 'minitest/autorun'
+require 'test_helper'
 require 'ganbaru'
-
-def silent_spec
-  old_stdout = $stdout
-  $stdout = StringIO.new
-  yield
-  $stdout = old_stdout
-end
-
-class FakeRedis
-  def initialize(*_args)
-    @values = {}
-  end
-
-  def rpush(key, values)
-    @values[key] = [] unless @values.key?(key)
-    @values[key].concat(values)
-    @values[key].size
-  end
-
-  def lpop(key)
-    return unless @values.key?(key)
-    @values[key].pop
-  end
-end
+require_relative 'support/fake_redis'
+require_relative 'support/utils'
 
 class TestGanbaru < Minitest::Test
   def setup
@@ -38,7 +16,7 @@ class TestGanbaru < Minitest::Test
     specs_to_run = leader.run
     specs_actually_run = nil
 
-    silent_spec do
+    with_no_stdout do
       specs_actually_run = worker.run
     end
 

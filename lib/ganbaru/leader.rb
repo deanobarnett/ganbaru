@@ -7,7 +7,7 @@ module Ganbaru
 
     def initialize(dir, redis: nil)
       @redis = redis || RedisClient.new
-      @ref_id = ENV['REFERENCE_ID'] || SecureRandom.uuid
+      @ref_id = ENV['BUILD_ID'] || SecureRandom.uuid
       @dir = dir
     end
 
@@ -22,7 +22,7 @@ module Ganbaru
     private
 
     def spec_files
-      Dir["#{@dir}/**/*_spec.rb"]
+      Dir.glob("#{@dir}/**/*_spec.rb")
     end
   end
 end
