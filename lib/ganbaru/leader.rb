@@ -5,9 +5,9 @@ module Ganbaru
   class Leader
     attr_reader :ref_id
 
-    def initialize(dir, redis: nil)
+    def initialize(dir, ref_id, redis: nil)
       @redis = redis || RedisClient.new
-      @ref_id = ENV['BUILD_ID'] || SecureRandom.uuid
+      @ref_id = ref_id
       @dir = dir
     end
 

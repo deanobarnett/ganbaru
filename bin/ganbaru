@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby -U
+
+require 'ganbaru'
+
+Ganbaru::Cli.start(ARGV)
