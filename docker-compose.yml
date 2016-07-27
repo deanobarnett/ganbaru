@@ -3,10 +3,12 @@ service: &default
   links:
     - redis
   environment:
-    - REDIS_URL
+    - REDIS_URL=redis://redis:6379/0
   volumes:
     - .:/app
 
 redis:
   image: redis:3.2.1
+  ports:
+    - "0.0.0.0:9200:9200"
 
