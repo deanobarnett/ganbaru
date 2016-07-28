@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/shopkeep/'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files`.split($\)
+  spec.files         = []
   spec.bindir        = 'bin'
   spec.executables   = ['ganbaru']
   spec.require_paths = ['lib']
