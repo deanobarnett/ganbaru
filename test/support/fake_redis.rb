@@ -14,4 +14,8 @@ class FakeRedis
     return unless @values.key?(key)
     @values[key].pop
   end
+
+  def lrange(id, *args)
+    @values
+  end
 end

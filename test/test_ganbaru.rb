@@ -10,13 +10,13 @@ class TestGanbaru < Minitest::Test
   end
 
   def test_loading_and_running
-    leader = Ganbaru::Leader.new('spec/examples', redis: @redis)
+    leader = Ganbaru::Leader.new('spec/examples', '123', redis: @redis)
     worker = Ganbaru::Worker.new(leader.ref_id, redis: @redis)
-
-    specs_to_run = leader.run
     specs_actually_run = nil
+    specs_to_run = nil
 
     with_no_stdout do
+      specs_to_run = leader.run
       specs_actually_run = worker.run
     end
 
