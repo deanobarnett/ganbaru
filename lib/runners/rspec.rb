@@ -6,6 +6,9 @@ module Runners
     def self.run(specs, runner: RSpec::Core::Runner, rspec: RSpec)
       runner.run(specs)
       rspec.clear_examples
+    rescue StandardError => e
+      puts e.display
+      rspec.clear_examples
     end
   end
 end

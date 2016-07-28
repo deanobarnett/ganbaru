@@ -2,7 +2,7 @@ require 'thor'
 
 module Ganbaru
   class Cli < Thor
-    desc 'leader DIR', 'run against a spec directory'
+    desc 'leader DIR', 'Run Ganbaru in Leader Mode'
     option :id, required: true
     option :dir, default: 'spec'
     long_desc <<-LONGDESC
@@ -14,7 +14,7 @@ module Ganbaru
       Ganbaru::Leader.new(options[:dir], options[:id]).run
     end
 
-    desc 'worker DIR', 'run against a spec directory'
+    desc 'worker DIR', 'Run Ganbaru in Worker Mode'
     option :id, required: true
     long_desc <<-LONGDESC
       Run an instance of the Ganbaru test runner.

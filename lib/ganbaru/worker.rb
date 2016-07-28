@@ -14,11 +14,14 @@ module Ganbaru
       loop do
         spec = @redis.lpop(@ref_id)
         break if spec.nil? || spec.empty?
+        puts "Running #{spec}"
         runner.run([spec])
         @specs_run << spec
       end
 
-      @specs_run
+      @specs_run.tap do
+        @specs_run.size
+      end
     end
   end
 end

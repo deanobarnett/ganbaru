@@ -12,7 +12,9 @@ module Ganbaru
     end
 
     def run
-      @redis.rpush(@ref_id, spec_files)
+      @redis.rpush(@ref_id, spec_files).tap do
+        puts show_specs_left.size
+      end
     end
 
     def show_specs_left
