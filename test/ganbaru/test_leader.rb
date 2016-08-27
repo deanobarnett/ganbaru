@@ -10,7 +10,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_specs
-    leader = Ganbaru::Leader.new('spec', redis: @redis)
+    leader = Ganbaru::Leader.new('spec', 'fake id', redis: @redis)
     result = nil
 
     with_no_stdout do
