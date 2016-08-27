@@ -1,6 +1,8 @@
-# Ganbaru
+# Ganbaru 
 
 ![Work Hard](https://25.media.tumblr.com/tumblr_lrkyzeVtcc1qm6oc3o1_500.gif)
+
+[![Build Status](https://travis-ci.org/deanobarnett/ganbaru.svg?branch=master)](https://travis-ci.org/deanobarnett/ganbaru)
 
 Ganbaru, Japanese word meaning to _slog on tenaciously through tough times_.
 
