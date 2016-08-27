@@ -35,7 +35,7 @@ Or install it yourself as:
 
 ## Usage
 
-Ganbaru uses a pretty basic CLI interface. To start Ganbaru in leader mode the follow command can be used to run on the `spec` directory with and predefined id. The id could be your Jenkins Build unique ID, a generated UUID, or a commit sha for your application. This should be something that identifies are particular spec run.
+Ganbaru uses a pretty basic CLI interface. To start Ganbaru in leader mode the following command can be used to run on the `spec` directory with and predefined id. The id could be your Jenkins Build unique ID, a generated UUID, or a commit sha for your application. This should be something that identifies are particular spec run.
 
 `ganbaru leader spec/ --id hello-world-1`
 
