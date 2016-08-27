@@ -1,5 +1,5 @@
 FROM ruby:2.3.1-alpine
-MAINTAINER ShopKeep Developers <developers@shopkeep.com>
+MAINTAINER Dean Barnett <iamdeanobarnett@gmail.com>
 
 RUN mkdir -p /usr/src/app
 
