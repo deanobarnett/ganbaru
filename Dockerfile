@@ -3,7 +3,6 @@ MAINTAINER Dean Barnett <iamdeanobarnett@gmail.com>
 
 RUN mkdir -p /usr/src/app
 
-
 # install build/runtime dependencies inside the container
 RUN apk add --no-cache make curl-dev ruby-dev build-base
 
@@ -13,4 +12,4 @@ WORKDIR /usr/src/app
 
 RUN bundle install --jobs 4
 
-ENTRYPOINT ["bundle", "exec", "bin/ganbaru"]
+CMD ["bundle", "exec", "bin/ganbaru"]
