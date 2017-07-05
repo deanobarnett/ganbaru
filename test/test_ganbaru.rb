@@ -17,6 +17,7 @@ class TestGanbaru < Minitest::Test
 
     with_no_stdout do
       specs_to_run = leader.run
+      puts specs_to_run
       specs_actually_run = worker.run
     end
 

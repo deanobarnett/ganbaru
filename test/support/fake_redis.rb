@@ -18,4 +18,9 @@ class FakeRedis
   def lrange(id, *args)
     @values
   end
+
+  def llen(key)
+    return 0 unless @values.key?(key)
+    @values[key].size
+  end
 end
