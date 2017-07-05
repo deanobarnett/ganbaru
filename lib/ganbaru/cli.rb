@@ -15,7 +15,7 @@ module Ganbaru
       Ganbaru::Leader.new(options[:dir], options[:id]).run
     end
 
-    desc 'worker DIR', 'Run Ganbaru in Worker Mode'
+    desc 'worker', 'Run Ganbaru in Worker Mode'
     option :id, required: true
     long_desc <<-LONGDESC
       Run an instance of the Ganbaru test runner.

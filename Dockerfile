@@ -12,5 +12,3 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 
 RUN bundle install --jobs 4
-
-ENTRYPOINT ["bundle", "exec", "bin/ganbaru"]

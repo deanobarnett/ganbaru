@@ -1,11 +1,16 @@
 service: &default
   build: .
+  entrypoint: bundle exec bin/ganbaru
   links:
     - redis
   environment:
     - REDIS_URL=redis://redis:6379/0
   volumes:
     - .:/app
+
+test:
+  build: .
+  command: bundle exec rake
 
 redis:
   image: redis:3.2.1
