@@ -8,7 +8,7 @@ class FakeQueue
   def push(values)
     @values[@key] = [] unless @values.key?(@key)
     @values[@key].concat(values)
-    @values[@key].size
+    size
   end
 
   def pop

@@ -4,11 +4,13 @@ require 'progress_bar'
 module Formatter
   class Basic
     def initialize(total)
-      @bar = ProgressBar.new(total, :bar, :percentage, :eta)
+      max = total.zero? ? 1 : total
+      @bar = ProgressBar.new(max, :bar, :percentage, :eta)
     end
 
     def add(value)
       @bar.increment!(value)
+      @bar.write
     end
 
     def progress
