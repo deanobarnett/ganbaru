@@ -3,16 +3,15 @@ module Track
   class Progress
     attr_reader :remaining
 
-    def initialize(redis, ref_id)
-      @redis = redis
-      @ref_id = ref_id
-      @remaining = redis.llen(ref_id)
+    def initialize(queue)
+      @queue = queue
+      @remaining = queue.size
       @formatter = Formatter::Basic.new(@remaining)
     end
 
     def update
-      new_remaining = @redis.llen(@ref_id)
-      @formatter.increment(@remaining - new_remaining)
+      new_remaining = @queue.size
+      @formatter.add(@remaining - new_remaining) unless new_remaining.zero?
       @remaining = new_remaining
     end
   end

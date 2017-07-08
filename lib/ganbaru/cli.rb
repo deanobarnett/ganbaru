@@ -12,7 +12,8 @@ module Ganbaru
     LONGDESC
 
     def leader
-      Ganbaru::Leader.new(options[:dir], options[:id]).run
+      queue = MessageQueue.new(RedisClient.new, options[:id])
+      Ganbaru::Leader.new(queue).run(options[:dir])
     end
 
     desc 'worker', 'Run Ganbaru in Worker Mode'
@@ -23,7 +24,8 @@ module Ganbaru
     LONGDESC
 
     def worker
-      Ganbaru::Worker.new(options[:id]).run
+      queue = MessageQueue.new(RedisClient.new, options[:id])
+      Ganbaru::Worker.new(queue).run
     end
   end
 end

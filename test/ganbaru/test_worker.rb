@@ -2,7 +2,7 @@
 require 'test_helper'
 require 'support/utils'
 require 'ganbaru/worker'
-require_relative '../support/fake_redis'
+require_relative '../support/fake_queue'
 
 class TestWorker < Minitest::Test
   class MockRunner
@@ -10,16 +10,15 @@ class TestWorker < Minitest::Test
   end
 
   def setup
-    @redis = FakeRedis.new
+    @queue = FakeQueue.new('foo')
   end
 
   def test_when_there_are_specs_in_redis
-    ref_id = 'foo'
-    @redis.rpush(ref_id, %w(a b))
-    worker = Ganbaru::Worker.new(ref_id, redis: @redis)
+    @queue.push(%w(a b))
+    worker = Ganbaru::Worker.new(@queue)
     result = nil
 
-    with_no_stdout do
+    with_no_output do
       result = worker.run(MockRunner).sort
     end
 
@@ -27,7 +26,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_no_specs_in_redis
-    worker = Ganbaru::Worker.new('foo', redis: @redis)
+    worker = Ganbaru::Worker.new(@queue)
     result = nil
 
     with_no_stdout do

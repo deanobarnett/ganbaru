@@ -13,3 +13,13 @@ def with_no_stderr
   yield
   $stderr = old_stderr
 end
+
+def with_no_output
+  old_stderr = $stderr
+  old_stdout = $stdout
+  $stderr = StringIO.new
+  $stdout = StringIO.new
+  yield
+  $stderr = old_stderr
+  $stdout = old_stdout
+end

@@ -7,7 +7,7 @@ module Formatter
       @bar = ProgressBar.new(total, :bar, :percentage, :eta)
     end
 
-    def increment(value)
+    def add(value)
       @bar.increment!(value)
     end
 
