@@ -8,7 +8,7 @@ class TestQueue < Minitest::Test
       true
     end
 
-    def lpop(_id)
+    def rpoplpush(_id, _tmp_id)
       true
     end
 

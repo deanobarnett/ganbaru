@@ -18,11 +18,20 @@ module Ganbaru
         @progress.update
         break if spec.nil? || spec.empty?
 
-        runner.run([spec])
+        with_no_stdout do
+          runner.run([spec])
+        end
         @specs_run << spec
       end
 
       @specs_run
+    end
+
+    def with_no_stdout
+      old_stdout = $stdout
+      $stdout = StringIO.new
+      yield
+      $stdout = old_stdout
     end
   end
 end

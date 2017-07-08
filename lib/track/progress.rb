@@ -11,7 +11,7 @@ module Track
 
     def update
       new_remaining = @queue.size
-      @formatter.add(@remaining - new_remaining) unless new_remaining.zero?
+      @formatter.add(@remaining - new_remaining)
       @remaining = new_remaining
     end
   end

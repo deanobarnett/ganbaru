@@ -29,7 +29,7 @@ class TestWorker < Minitest::Test
     worker = Ganbaru::Worker.new(@queue)
     result = nil
 
-    with_no_stdout do
+    with_no_output do
       result = worker.run(MockRunner).sort
     end
 

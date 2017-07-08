@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require 'thor'
+require 'message_queue'
+require 'redis_client'
 
 module Ganbaru
   class Cli < Thor

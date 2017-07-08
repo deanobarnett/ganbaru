@@ -12,7 +12,7 @@ class MessageQueue
   end
 
   def pop
-    @queue.lpop(@id)
+    @queue.rpoplpush(@id, "temp-#{@id}")
   end
 
   def size
