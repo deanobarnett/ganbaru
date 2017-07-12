@@ -1,37 +1,36 @@
 # frozen_string_literal: true
-require 'redis_client'
-require 'formatter/basic'
-require 'runners/rspec'
+require 'pp'
+require 'runners/rspec/executor'
+require 'runners/errors'
 require 'track/progress'
 
 module Ganbaru
   class Worker
-    def initialize(queue)
+    def initialize(queue, runner: Runners::Rspec::Executor.new)
       @queue = queue
+      @runner = runner
       @progress = Track::Progress.new(queue)
       @specs_run = []
     end
 
-    def run(runner = Runners::Rspec)
+    def run
       loop do
-        spec = @queue.pop
-        @progress.update
-        break if spec.nil? || spec.empty?
-
-        with_no_stdout do
-          runner.run([spec])
-        end
+        break unless spec = run_spec
         @specs_run << spec
       end
 
       @specs_run
     end
 
-    def with_no_stdout
-      old_stdout = $stdout
-      $stdout = StringIO.new
-      yield
-      $stdout = old_stdout
+    def run_spec
+      @queue.pop.tap do |spec|
+        @progress.update
+        return if spec.nil? || spec.empty?
+        @runner.run([spec])
+      end
+    rescue Runners::FailedTestError => e
+      pp(e.result.to_h)
+      exit 2
     end
   end
 end

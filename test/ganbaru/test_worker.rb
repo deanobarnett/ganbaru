@@ -15,22 +15,22 @@ class TestWorker < Minitest::Test
 
   def test_when_there_are_specs_in_redis
     @queue.push(%w(a b))
-    worker = Ganbaru::Worker.new(@queue)
+    worker = Ganbaru::Worker.new(@queue, runner: MockRunner)
     result = nil
 
     with_no_output do
-      result = worker.run(MockRunner).sort
+      result = worker.run.sort
     end
 
     assert_equal(%w(a b), result)
   end
 
   def test_when_there_are_no_specs_in_redis
-    worker = Ganbaru::Worker.new(@queue)
+    worker = Ganbaru::Worker.new(@queue, runner: MockRunner)
     result = nil
 
     with_no_output do
-      result = worker.run(MockRunner).sort
+      result = worker.run.sort
     end
 
     assert_equal([], result)

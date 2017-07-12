@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'formatter/basic'
+
 module Track
   class Progress
     attr_reader :remaining
