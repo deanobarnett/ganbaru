@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/deanobarnett/ganbaru.svg?branch=master)](https://travis-ci.org/deanobarnett/ganbaru)
 
-_Ganbaru_: Japanese word meaning to "_slog on tenaciously through tough times_".
+_Ganbaru (頑張る)_: Japanese word meaning to "_slog on tenaciously through tough times_".
 
 This gem helps dealing with large, unwieldy test suites. Ganbaru uses a queue and workers to parallelize your test suite, with a fairly even time distribution.
 
