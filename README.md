@@ -4,27 +4,29 @@
 
 [![Build Status](https://travis-ci.org/deanobarnett/ganbaru.svg?branch=master)](https://travis-ci.org/deanobarnett/ganbaru)
 
-Ganbaru, Japanese word meaning to _slog on tenaciously through tough times_.
+_Ganbaru_: Japanese word meaning to "_slog on tenaciously through tough times_".
 
-This gem can be used as a method for dealing with large and unwieldy test suites. The main strategy is to use a queue and workers to fan out and parallelize your test suite, with a fairly even distribution.
+This gem helps dealing with large, unwieldy test suites. Ganbaru uses a queue and workers to parallelize your test suite, with a fairly even time distribution.
 
-This gem makes some assumptions on your stack at the moment:
+Currently Ganbaru makes some assumptions on your stack:
 
 - You are using RSpec for testing.
 - You have access to Redis.
 
 ## How it works
 
-Ganbaru run in two modes, leader mode and worker mode. In leader mode Ganbaru will gather all the spec files in a supplied directory and load all the names into a Redis list. The key for this list is a unique ID assigned by the user.
+Ganbaru runs in two modes: *leader* and *worker*. 
 
-In Worker mode, Ganbaru will pick spec files off the queue and run them through the test runner. It is intended that you can start multiple worker to to churn through a large number of tests quicker, and with a fairly even distribution.
+*Leader mode*: Ganbaru will gather all the spec files and load the test names into a Redis list. The key for this list is a unique ID assigned by the user.
+
+*Worker mode:* Ganbaru will pick spec files off the Redis queue and run them through the test runner. It is intended that you can start multiple workers to churn through a tests quicker. Unlike other parallel strategies, working through the queue should result in all workers finishing at approximately the same time.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ganbaru'
+  gem 'ganbaru'
 ```
 
 And then execute:
@@ -37,15 +39,23 @@ Or install it yourself as:
 
 ## Usage
 
-Ganbaru uses a pretty basic CLI interface. To start Ganbaru in leader mode the following command can be used to run on the `spec` directory with and predefined id. The id could be your Jenkins Build unique ID, a generated UUID, or a commit sha for your application. This should be something that identifies a particular spec run.
+Ganbaru has a CLI interface. 
 
-`ganbaru leader spec/ --id hello-world-1`
+### Starting a Ganbaru Leader 
 
-To run Ganbaru in worker mode, the command below demonstrates an example command that can be used to run a worker against the `hello-world-1` build that we defined in the previous example.
+First, assign an ID. The ID could be your Jenkins Build unique ID, a generated UUID, or a commit SHA for your application. This ID will identify the test run.
 
-### ENV Vars
+`ganbaru leader ./spec --id hello-world-1`
 
-The only environment variable needed is the Redis URL to use.
+### Starting a Ganbaru worker 
+
+To run Ganbaru in worker mode, pass in the ID of the test queue.
+
+`ganbaru worker --id hello-world-1`
+
+### Environment Variables
+
+The only environment variable needed is the Redis URL.
 
 - `REDIS_URL=`
 
@@ -54,9 +64,11 @@ The only environment variable needed is the Redis URL to use.
 If you want to develop on Ganbaru, there are a few useful things you should know.
 
 ### Running the tests
+
 `rake`
 
 ### Running locally
+
 You can use the Docker container to make running Ganbaru easier. Simply build the container and run any commands you need through the container. The Docker entrypoint is set to ganbaru, so you can run commands directly.
 
 ```shell
@@ -73,7 +85,6 @@ docker-compose run --rm service leader --id some-id
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/deanobarnett/ganbaru. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
 
 ## License
 
