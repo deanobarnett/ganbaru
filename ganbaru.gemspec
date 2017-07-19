@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['dean@shopkeep.com']
 
   spec.summary       = 'Worker strategy for tests.'
-  spec.description   = 'Fan out test runs and use Redis to co-ordiante.'
+  spec.description   = 'Fan out test runs and use Redis to co-ordinate.'
   spec.homepage      = 'https://github.com/shopkeep/'
   spec.license       = 'MIT'
 

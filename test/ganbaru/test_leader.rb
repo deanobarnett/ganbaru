@@ -10,7 +10,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_specs
-    leader = Ganbaru::Leader.new(@queue)
+    leader = Ganbaru::Leader.new(queue: @queue)
     result = nil
 
     with_no_stdout do
@@ -21,7 +21,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_no_specs
-    leader = Ganbaru::Leader.new(@queue)
+    leader = Ganbaru::Leader.new(queue: @queue)
     result = nil
 
     with_no_stdout do

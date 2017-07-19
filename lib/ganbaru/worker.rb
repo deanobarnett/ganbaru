@@ -6,10 +6,12 @@ require 'track/progress'
 
 module Ganbaru
   class Worker
-    def initialize(queue, runner: Runners::Rspec::Executor.new)
+    def initialize(queue:,
+                   runner: Runners::Rspec::Executor.new,
+                   formatter: 'silent')
       @queue = queue
       @runner = runner
-      @progress = Track::Progress.new(queue)
+      @progress = Track::Progress.new(queue: queue, formatter: formatter)
       @specs_run = []
     end
 

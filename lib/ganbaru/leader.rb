@@ -3,7 +3,7 @@ require 'redis_client'
 
 module Ganbaru
   class Leader
-    def initialize(queue)
+    def initialize(queue:)
       @queue = queue
     end
 

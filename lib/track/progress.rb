@@ -1,14 +1,15 @@
 # frozen_string_literal: true
-require 'formatter/basic'
+
+require 'ganbaru/formatter'
 
 module Track
   class Progress
     attr_reader :remaining
 
-    def initialize(queue)
+    def initialize(queue:, formatter:)
       @queue = queue
       @remaining = queue.size
-      @formatter = Formatter::Basic.new(@remaining)
+      @formatter = Ganbaru::Formatter.for(formatter).new(@remaining)
     end
 
     def update
