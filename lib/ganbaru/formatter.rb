@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/string'
+
 require 'ganbaru/formatter/silent'
 require 'ganbaru/formatter/basic'
 require 'ganbaru/formatter/progress_bar'
@@ -7,10 +9,7 @@ require 'ganbaru/formatter/progress_bar'
 module Ganbaru
   module Formatter
     def self.for(name)
-      "Ganbaru::Formatter::#{name}".split('::')
-                                   .inject(Object) do |mod, class_name|
-          mod.const_get(class_name.capitalize)
-      end
+      "Ganbaru::Formatter::#{name.classify}".constantize
     rescue NameError
       raise ArgumentError, "Unsupported formatter: '#{name}'"
     end
