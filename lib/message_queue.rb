@@ -8,6 +8,11 @@ class MessageQueue
     @id = id
   end
 
+  def destroy!
+    @queue.ltrim(@id, -1, 0)
+    @queue.del(@id)
+  end
+
   def push(values)
     @queue.rpush(@id, values)
   end
