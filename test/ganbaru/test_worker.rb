@@ -2,7 +2,6 @@
 require 'test_helper'
 require 'support/utils'
 require 'ganbaru/worker'
-require_relative '../support/fake_queue'
 
 class TestWorker < Minitest::Test
   class MockRunner
@@ -10,7 +9,11 @@ class TestWorker < Minitest::Test
   end
 
   def setup
-    @queue = FakeQueue.new('foo')
+    @queue = MessageQueue.new(RedisClient.new, '456')
+  end
+
+  def teardown
+    @queue.destroy!
   end
 
   def test_when_there_are_specs_in_redis

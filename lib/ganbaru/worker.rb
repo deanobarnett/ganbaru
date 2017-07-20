@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'pp'
 require 'runners/rspec/executor'
 require 'runners/errors'
@@ -21,6 +22,7 @@ module Ganbaru
         @specs_run << spec
       end
 
+      @queue.destroy!
       @specs_run
     end
 
@@ -32,6 +34,7 @@ module Ganbaru
       end
     rescue Runners::FailedTestError => e
       pp(e.result.to_h)
+      @queue.destroy!
       exit 2
     end
   end

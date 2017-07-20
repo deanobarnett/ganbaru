@@ -1,34 +1,50 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 require 'message_queue'
 
 class TestQueue < Minitest::Test
-  class MockQueue
-    def rpush(_id, _values)
-      true
-    end
+  def redis
+    RedisClient.new
+  end
 
-    def rpoplpush(_id, _tmp_id)
-      true
-    end
+  def id
+    '123'
+  end
 
-    def llen(_id)
-      10
-    end
+  def setup
+    @queue = MessageQueue.new(redis, id)
+  end
+
+  def teardown
+    @queue.destroy!
   end
 
   def test_push
-    queue = MessageQueue.new(MockQueue.new, '123')
-    assert(queue.push(['foo']))
+    assert_equal(0, @queue.size)
+    assert(@queue.push(['foo']))
+    assert_equal(1, @queue.size)
   end
 
   def test_pop
-    queue = MessageQueue.new(MockQueue.new, '123')
-    assert(queue.pop)
+    @queue.push(['foo'])
+    assert_equal(1, @queue.size)
+    assert(@queue.pop)
+    assert_equal(0, @queue.size)
   end
 
   def test_size
-    queue = MessageQueue.new(MockQueue.new, '123')
-    assert_equal(10, queue.size)
+    assert_equal(0, @queue.size)
+    @queue.push(['foo'])
+    assert_equal(1, @queue.size)
+  end
+
+  def test_destroy!
+    assert(@queue.push(['foo', 'bar']))
+    assert_equal(2, @queue.size)
+    @queue.destroy!
+    assert_equal(0, @queue.size)
+    @queue.destroy!
+    assert_equal(0, @queue.size)
   end
 end

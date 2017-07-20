@@ -1,12 +1,16 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 require 'support/utils'
 require 'ganbaru/leader'
-require_relative '../support/fake_queue'
 
 class TestWorker < Minitest::Test
   def setup
-    @queue = FakeQueue.new('fake id')
+    @queue = MessageQueue.new(RedisClient.new, 'fake_id')
+  end
+
+  def teardown
+    @queue.destroy!
   end
 
   def test_when_there_are_specs
@@ -19,6 +23,7 @@ class TestWorker < Minitest::Test
 
     assert_equal(4, result)
   end
+
 
   def test_when_there_are_no_specs
     leader = Ganbaru::Leader.new(queue: @queue)
