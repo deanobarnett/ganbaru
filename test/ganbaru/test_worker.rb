@@ -15,7 +15,7 @@ class TestWorker < Minitest::Test
 
   def test_when_there_are_specs_in_redis
     @queue.push(%w(a b))
-    worker = Ganbaru::Worker.new(@queue, runner: MockRunner)
+    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner)
     result = nil
 
     with_no_output do
@@ -26,7 +26,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_no_specs_in_redis
-    worker = Ganbaru::Worker.new(@queue, runner: MockRunner)
+    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner)
     result = nil
 
     with_no_output do

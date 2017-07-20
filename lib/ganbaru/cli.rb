@@ -14,20 +14,25 @@ module Ganbaru
     LONGDESC
 
     def leader
-      queue = MessageQueue.new(RedisClient.new, options[:id])
-      Ganbaru::Leader.new(queue).run(options[:dir])
+      Ganbaru::Leader.new(queue: queue).run(options[:dir])
     end
 
     desc 'worker', 'Run Ganbaru in Worker Mode'
     option :id, required: true
+    option :formatter, default: 'progress_bar'
     long_desc <<-LONGDESC
       Run an instance of the Ganbaru test runner.
       This will grab and run specs from the queue.
     LONGDESC
 
     def worker
-      queue = MessageQueue.new(RedisClient.new, options[:id])
-      Ganbaru::Worker.new(queue).run
+      Ganbaru::Worker.new(queue: queue, formatter: options[:formatter]).run
+    end
+
+    private
+
+    def queue
+      MessageQueue.new(RedisClient.new, options[:id])
     end
   end
 end

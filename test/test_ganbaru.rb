@@ -14,8 +14,8 @@ class TestGanbaru < Minitest::Test
     specs_to_run = nil
 
     with_no_output do
-      specs_to_run = Ganbaru::Leader.new(@queue).run('spec/examples')
-      specs_actually_run = Ganbaru::Worker.new(@queue).run
+      specs_to_run = Ganbaru::Leader.new(queue: @queue).run('spec/examples')
+      specs_actually_run = Ganbaru::Worker.new(queue: @queue).run
     end
 
     assert_equal(specs_to_run, specs_actually_run.size)
