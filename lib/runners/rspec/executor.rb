@@ -16,24 +16,24 @@ module Runners
       def run(specs)
         err = StringIO.new
         @runner.run(['-f', 'j', specs], err, @output)
-        process_result
+        process_result(specs)
       ensure
         @rspec.clear_examples
       end
 
       private
 
-      def process_result
-        result_class.tap do |result|
+      def process_result(specs)
+        result_class(specs).tap do |result|
           raise Runners::FailedTestError, result if result.failed?
         end
       end
 
-      def result_class
+      def result_class(specs)
         result = @output.string
         @output.reopen
         return Runners::Rspec::NullResult.new if result.to_s.strip.empty?
-        Runners::Rspec::Result.new(result)
+        Runners::Rspec::Result.new(result, specs)
       end
     end
   end
