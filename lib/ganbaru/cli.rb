@@ -2,6 +2,7 @@
 require 'thor'
 require 'message_queue'
 require 'redis_client'
+require 'track/metrics'
 
 module Ganbaru
   class Cli < Thor
@@ -26,6 +27,7 @@ module Ganbaru
     LONGDESC
 
     def worker
+      Track::Metrics.worker(options[:id])
       Ganbaru::Worker.new(queue: queue, formatter: options[:formatter]).run
     end
 
