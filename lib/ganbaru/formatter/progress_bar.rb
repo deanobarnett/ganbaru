@@ -10,6 +10,8 @@ module Ganbaru
         @bar = ::ProgressBar.new(max, :bar, :percentage, :eta)
       end
 
+      def update(_name); end
+
       def add(value)
         @bar.increment!(value)
         @bar.write

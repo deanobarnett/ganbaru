@@ -2,14 +2,14 @@
 
 module Ganbaru
   module Formatter
-    class Basic
+    class Named
       def initialize(total)
         @max = total.zero? ? 1 : total
         @count = 0
       end
 
-      def update(_name)
-        print '.'
+      def update(name)
+        puts name
       end
 
       def add(value)

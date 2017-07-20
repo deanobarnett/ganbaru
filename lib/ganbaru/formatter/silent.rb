@@ -8,6 +8,8 @@ module Ganbaru
         @count = 0
       end
 
+      def update(_name); end
+
       def add(value)
         @count = @count + value
       end
