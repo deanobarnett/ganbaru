@@ -8,3 +8,5 @@ end
 
 require 'minitest/autorun'
 require 'minitest/pride'
+
+require 'fakeredis'
