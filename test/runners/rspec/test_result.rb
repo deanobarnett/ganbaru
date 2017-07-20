@@ -3,18 +3,27 @@ require 'test_helper'
 require 'runners/rspec/result'
 
 class TestRunnerRspecExecutor < Minitest::Test
+  def result_hash(failed, count)
+     %Q({"examples"=>["test"],"summary"=>{"failure_count"=>#{failed},"example_count"=>#{count}}})
+  end
+
   def test_failed_when_failed_specs
-    result = Runners::Rspec::Result.new('{"summary"=>{"failure_count"=>1,"example_count"=>1}}')
+    result = Runners::Rspec::Result.new(result_hash(1, 1))
     assert(result.failed?)
   end
 
   def test_failed_when_errored_specs
-    result = Runners::Rspec::Result.new('{"summary"=>{"failure_count"=>0,"example_count"=>0}}')
+    result = Runners::Rspec::Result.new(result_hash(0, 0))
     assert(result.failed?)
   end
 
   def test_passed_when_no_failed_specs
-    result = Runners::Rspec::Result.new('{"summary"=>{"failure_count"=>0,"example_count"=>1}}')
+    result = Runners::Rspec::Result.new(result_hash(0, 1))
+    assert(!result.failed?)
+  end
+
+  def test_empty_spec_file
+    result = Runners::Rspec::Result.new('{"examples"=>[]}')
     assert(!result.failed?)
   end
 
