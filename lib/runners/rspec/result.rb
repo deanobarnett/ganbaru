@@ -2,7 +2,8 @@
 module Runners
   module Rspec
     class Result
-      def initialize(result)
+      def initialize(result, specs)
+        @specs = specs
         @result = JSON.parse(result.gsub('=>', ':'))
       end
 
@@ -13,7 +14,7 @@ module Runners
       end
 
       def to_h
-        @result
+        @result.merge('files' => @specs)
       end
 
       private

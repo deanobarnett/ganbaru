@@ -11,24 +11,9 @@ class TestRunnerRspecExecutor < Minitest::Test
     runner = Minitest::Mock.new
     runner.expect(:run, nil, [Array, StringIO, StringIO])
 
-    result = Runners::Rspec::Executor.new(rspec: rspec, runner: runner).run('foo')
-    # assert_mock(rspec)
+    with_no_stdout do
+      Runners::Rspec::Executor.new(rspec: rspec, runner: runner).run('foo')
+    end
+    assert(rspec.verify)
   end
-
-  # def test_when_there_is_an_error
-  #   runner = Minitest::Mock.new
-  #
-  #   runner.expect(:run, true) do
-  #     raise StandardError
-  #   end
-  #
-  #   rspec = Minitest::Mock.new
-  #   rspec.expect(:clear_examples, nil)
-  #
-  #   with_no_stdout do
-  #     Runners::Rspec.run('foo', runner: runner, rspec: rspec)
-  #   end
-  #
-  #   assert rspec.verify
-  # end
 end
