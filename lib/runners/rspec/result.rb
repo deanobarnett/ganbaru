@@ -7,12 +7,20 @@ module Runners
       end
 
       def failed?
+        return false if empty?
         @result['summary']['failure_count'].positive? ||
           @result['summary']['example_count'].zero?
       end
 
       def to_h
         @result
+      end
+
+      private
+
+      def empty?
+        return true if @result["examples"].nil?
+        @result["examples"].empty?
       end
     end
 
