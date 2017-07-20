@@ -12,7 +12,8 @@ module Track
       @formatter = Ganbaru::Formatter.for(formatter).new(@remaining)
     end
 
-    def update
+    def update(name)
+      @formatter.update(name)
       new_remaining = @queue.size
       @formatter.add(@remaining - new_remaining)
       @remaining = new_remaining

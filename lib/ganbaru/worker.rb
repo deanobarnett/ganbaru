@@ -28,8 +28,8 @@ module Ganbaru
 
     def run_spec
       @queue.pop.tap do |spec|
-        @progress.update
         return if spec.nil? || spec.empty?
+        @progress.update(spec)
         @runner.run([spec])
       end
     rescue Runners::FailedTestError => e
