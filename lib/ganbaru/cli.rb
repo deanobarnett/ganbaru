@@ -9,13 +9,14 @@ module Ganbaru
     desc 'leader DIR', 'Run Ganbaru in Leader Mode'
     option :id, required: true
     option :dir, default: 'spec'
+    option :shuffle, default: false
     long_desc <<-LONGDESC
       Run an instance of the Ganbaru test runner.
       This will load the specs that need run into the supplied Redis instance.
     LONGDESC
 
     def leader
-      Ganbaru::Leader.new(queue: queue).run(options[:dir])
+      Ganbaru::Leader.new(queue: queue).run(options[:dir], shuffle: options[:shuffle])
     end
 
     desc 'worker', 'Run Ganbaru in Worker Mode'
