@@ -13,6 +13,10 @@ module Runners
           @result['summary']['example_count'].zero?
       end
 
+      def examples
+        @result['examples']
+      end
+
       def to_h
         @result.merge('files' => @specs)
       end
@@ -22,16 +26,6 @@ module Runners
       def empty?
         return true if @result["examples"].nil?
         @result["examples"].empty?
-      end
-    end
-
-    class NullResult
-      def failed?
-        false
-      end
-
-      def to_h
-        {}
       end
     end
   end

@@ -25,6 +25,9 @@ module Ganbaru
           @specs_run << spec
         end
 
+        puts "Total Runtime: #{@runner.duration.total}"
+        puts 'Slowest Examples:-'
+        pp(@runner.duration.slowest)
         @queue.destroy!
         @specs_run
       end

@@ -1,16 +1,21 @@
 # frozen_string_literal: true
 require 'rspec'
+require 'track/duration'
 require 'runners/errors'
+require 'runners/null_result'
 require 'runners/rspec/result'
 require 'track/metrics'
 
 module Runners
   module Rspec
     class Executor
+      attr_reader :duration
+
       def initialize(rspec: RSpec, runner: RSpec::Core::Runner)
         @rspec = rspec
         @runner = runner
         @output = StringIO.new
+        @duration = Track::Duration.new
       end
 
       # Run Rspec Test with JSON formatter
@@ -34,6 +39,7 @@ module Runners
 
       def process_result(specs)
         result_class(specs).tap do |result|
+          @duration.add(result.examples)
           raise Runners::FailedTestError, result if result.failed?
         end
       end
@@ -41,7 +47,7 @@ module Runners
       def result_class(specs)
         result = @output.string
         @output.reopen
-        return Runners::Rspec::NullResult.new if result.to_s.strip.empty?
+        return Runners::NullResult.new if result.to_s.strip.empty?
         Runners::Rspec::Result.new(result, specs)
       end
     end

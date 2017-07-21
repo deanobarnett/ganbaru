@@ -15,6 +15,6 @@ jobs:
         ruby-version: 2.4.6
     - name: Build and test with Rake
       run: |
-        gem install bundler -v 1.12.5
+        gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rake
