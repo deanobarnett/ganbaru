@@ -4,8 +4,15 @@ require 'support/utils'
 require 'ganbaru/worker'
 
 class TestWorker < Minitest::Test
+  class MockDuration
+    def slowest; end
+    def total; end
+  end
   class MockRunner
-    def self.run(_specs); end
+    def run(_specs); end
+    def duration
+      MockDuration.new
+    end
   end
 
   def setup
@@ -18,7 +25,7 @@ class TestWorker < Minitest::Test
 
   def test_when_there_are_specs_in_redis
     @queue.push(%w(a b))
-    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner)
+    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner.new)
     result = nil
 
     with_no_output do
@@ -29,7 +36,7 @@ class TestWorker < Minitest::Test
   end
 
   def test_when_there_are_no_specs_in_redis
-    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner)
+    worker = Ganbaru::Worker.new(queue: @queue, runner: MockRunner.new)
     result = nil
 
     with_no_output do
