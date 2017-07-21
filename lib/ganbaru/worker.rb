@@ -3,6 +3,7 @@
 require 'pp'
 require 'runners/rspec/executor'
 require 'runners/errors'
+require 'track/metrics'
 require 'track/progress'
 
 module Ganbaru
@@ -17,13 +18,16 @@ module Ganbaru
     end
 
     def run
-      loop do
-        break unless spec = run_spec
-        @specs_run << spec
-      end
+      Track::Metrics.event('Worker run', 'Ganbaru Worker started')
+      Track::Metrics.time('worker.run.time') do
+        loop do
+          break unless spec = run_spec
+          @specs_run << spec
+        end
 
-      @queue.destroy!
-      @specs_run
+        @queue.destroy!
+        @specs_run
+      end
     end
 
     def run_spec
