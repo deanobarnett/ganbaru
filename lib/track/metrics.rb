@@ -23,5 +23,6 @@ module Track
     def_delegators :@stats, :increment
     def_delegators :@stats, :time
     def_delegators :@stats, :event
+    def_delegators :@stats, :histogram
   end
 end
