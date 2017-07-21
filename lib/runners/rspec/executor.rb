@@ -16,7 +16,11 @@ module Runners
       # Run Rspec Test with JSON formatter
       def run(specs)
         err = StringIO.new
-        @runner.run(['-f', 'j', specs], err, @output)
+
+        Track::Metrics.time('spec.run.time', tags: ["names:#{specs.join('-')}"]) do
+          @runner.run(['-f', 'j', specs], err, @output)
+        end
+
         process_result(specs)
         Track::Metrics.increment('rspec.executor.run.success')
       rescue Runners::FailedTestError => e

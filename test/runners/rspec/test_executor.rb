@@ -12,7 +12,7 @@ class TestRunnerRspecExecutor < Minitest::Test
     runner.expect(:run, nil, [Array, StringIO, StringIO])
 
     with_no_stdout do
-      Runners::Rspec::Executor.new(rspec: rspec, runner: runner).run('foo')
+      Runners::Rspec::Executor.new(rspec: rspec, runner: runner).run(['foo'])
     end
     assert(rspec.verify)
   end
