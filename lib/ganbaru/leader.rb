@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'redis_client'
+require 'track/metrics'
 
 module Ganbaru
   class Leader
@@ -9,6 +10,7 @@ module Ganbaru
     end
 
     def run(dir, shuffle: false)
+      Track::Metrics.event('Leader run', 'Ganbaru Leader started')
       puts "Test ID: #{@queue.id}"
       puts "Scanning #{dir}..."
 

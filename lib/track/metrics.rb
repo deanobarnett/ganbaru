@@ -1,20 +1,27 @@
 # frozen_string_literal: true
 
-require 'statsd-instrument'
+require 'forwardable'
+require 'datadog/statsd'
 
 module Track
   module Metrics
-    def self.worker(worker_id)
-      tags = ["worker_id:#{worker_id}"]
+    extend SingleForwardable
 
-      StatsD.prefix = "ganbaru.#{ENV['STATSD_NAMESPACE']}"
-      StatsD.backend = StatsD::Instrument::Backends::UDPBackend.new(ENV['STATSD_ADDR'], ENV['STATSD_IMPLEMENTATION'])
+    class Stats < Datadog::Statsd
+      def initialize(run_id)
+        namespace = "ganbaru.#{ENV['STATSD_NAMESPACE']}"
+        tags = ["run_id:#{run_id}"]
 
-      Ganbaru::Worker.extend StatsD::Instrument
-      Ganbaru::Worker.statsd_measure :run, 'worker.run.time', tags: tags
-
-      Runners::Rspec::Executor.extend StatsD::Instrument
-      Runners::Rspec::Executor.statsd_count_success :run, 'rspec.executor.run', tags: tags
+        super(ENV['STATSD_HOST'],
+              ENV['STATSD_PORT'].to_i,
+              opts = { namespace: namespace, tags: tags })
+      end
     end
+
+    @stats = Stats.new(ENV['ID'])
+
+    def_delegators :@stats, :increment
+    def_delegators :@stats, :time
+    def_delegators :@stats, :event
   end
 end

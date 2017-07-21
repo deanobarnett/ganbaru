@@ -2,6 +2,7 @@
 require 'rspec'
 require 'runners/errors'
 require 'runners/rspec/result'
+require 'track/metrics'
 
 module Runners
   module Rspec
@@ -17,6 +18,10 @@ module Runners
         err = StringIO.new
         @runner.run(['-f', 'j', specs], err, @output)
         process_result(specs)
+        Track::Metrics.increment('rspec.executor.run.success')
+      rescue Runners::FailedTestError => e
+        Track::Metrics.increment('rspec.executor.run.fail')
+        raise
       ensure
         @rspec.clear_examples
       end
