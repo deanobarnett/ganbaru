@@ -8,6 +8,7 @@ module Track
       tags = ["worker_id:#{worker_id}"]
 
       StatsD.prefix = "ganbaru.#{ENV['STATSD_NAMESPACE']}"
+      StatsD.backend = StatsD::Instrument::Backends::UDPBackend.new(ENV['STATSD_ADDR'], ENV['STATSD_IMPLEMENTATION'])
 
       Ganbaru::Worker.extend StatsD::Instrument
       Ganbaru::Worker.statsd_measure :run, 'worker.run.time', tags: tags
