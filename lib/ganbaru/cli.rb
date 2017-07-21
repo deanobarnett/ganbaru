@@ -9,7 +9,7 @@ module Ganbaru
     desc 'leader DIR', 'Run Ganbaru in Leader Mode'
     option :id, required: true
     option :dir, default: 'spec'
-    option :shuffle, default: false
+    option :shuffle, type: :boolean, default: false
     long_desc <<-LONGDESC
       Run an instance of the Ganbaru test runner.
       This will load the specs that need run into the supplied Redis instance.
