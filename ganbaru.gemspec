@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'simplecov', '~> 0.12.0'
   spec.add_development_dependency 'minitest', '~> 5.8.4'
-  spec.add_development_dependency 'rubocop', '~> 0.41.2'
+  spec.add_development_dependency 'rubocop', '~> 0.49'
   spec.add_development_dependency 'pry', '~> 0.10.4'
   spec.add_development_dependency 'fakeredis', '~> 0.6.0'
 end
