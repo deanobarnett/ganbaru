@@ -9,12 +9,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
+    - name: Set up Ruby 2.3
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.3.0
     - name: Build and test with Rake
       run: |
-        gem install bundler
+        gem install bundler -v 1.12.5
         bundle install --jobs 4 --retry 3
         bundle exec rake
