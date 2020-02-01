@@ -15,6 +15,10 @@ class TestGanbaru < Minitest::Test
       formatter.add(10)
       assert_equal(20, formatter.progress)
       assert_equal(30, formatter.remaining)
+
+      formatter.add
+      assert_equal(21, formatter.progress)
+      assert_equal(29, formatter.remaining)
     end
   end
 end

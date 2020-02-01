@@ -12,7 +12,7 @@ module Ganbaru
         print '.'
       end
 
-      def add(value)
+      def add(value = 1)
         @count = @count + value
       end
 
